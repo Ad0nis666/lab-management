@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 230" role="img" aria-labelledby="title desc">
+<title id="title">机械臂</title><desc id="desc">带关节、夹爪和底座的实验室机械臂卡通示意图。</desc>
+<rect width="360" height="230" rx="24" fill="#f2f3f2"/><ellipse cx="180" cy="204" rx="118" ry="10" fill="#cbd0cf" opacity=".6"/>
+<rect x="100" y="178" width="134" height="27" rx="9" fill="#e3e5e4" stroke="#747f81" stroke-width="3"/>
+<path d="M164 178V128L111 88l39-40 81 44" fill="none" stroke="#718084" stroke-width="32" stroke-linejoin="round"/>
+<path d="M164 176V128L111 88l39-40 81 44" fill="none" stroke="#dce5e5" stroke-width="24" stroke-linejoin="round"/>
+<g fill="#b9bfbe" stroke="#747f81" stroke-width="3"><circle cx="164" cy="128" r="18"/><circle cx="111" cy="88" r="18"/><circle cx="150" cy="48" r="18"/><circle cx="231" cy="92" r="14"/></g>
+<g fill="#7a0019"><circle cx="164" cy="128" r="6"/><circle cx="111" cy="88" r="6"/><circle cx="150" cy="48" r="6"/></g>
+<path d="M237 100l17 18-14 18m14-18 17 5-2 19" fill="none" stroke="#525b5c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="137" y="185" width="62" height="12" rx="3" fill="#263e3a"/><circle cx="214" cy="191" r="5" fill="#7a0019"/>
+</svg>

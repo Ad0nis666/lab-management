@@ -1,0 +1,131 @@
+const assert = require('node:assert/strict');
+const { chromium } = require('playwright');
+const { randomUUID } = require('node:crypto');
+const fixture = require('./auth-fixture.cjs').createFixture();
+(async () => {
+  let browser;
+  try {
+    const origin = await fixture.initialize();
+    browser = await chromium.launch({ headless: true, executablePath: process.env.CHROME_EXECUTABLE });
+    const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 1000 } }); await fixture.signIn(context);
+    const memberCredentials = { account: 'real_member', password: 'Real-member-password' };
+    const member = await fixture.app.store.createUser({ ...memberCredentials, display_name: '真实成员' });
+    const post = async (url, data, key = randomUUID()) => context.request.post(origin + '/api/v1' + url, { headers: { Origin: origin, 'Idempotency-Key': key }, data });
+    const reagent = (await (await post('/reagents', { name: '领用验收乙醇', stock_unit: 'mL' })).json()).reagent;
+    const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+    const addBottle = async (code, quantity = '100') => (await (await post(`/reagents/${reagent.id}/bottles`, { bottle_code: code, batch_no: 'QA', initial_quantity: quantity, unit: 'mL', location: 'QA 柜', received_on: date, expires_on: `${Number(date.slice(0, 4)) + 1}${date.slice(4)}` })).json()).bottle;
+    const bottle = await addBottle('USE-PRIMARY'), otherBottle = await addBottle('USE-OTHER');
+    const page = await context.newPage(), errors = []; page.on('pageerror', error => errors.push(error.message));
+    await page.goto(origin);
+    await page.waitForFunction(() => document.querySelector('.profile-copy strong').textContent === '测试管理员');
+    await page.evaluate(id => openUsage(id), bottle.id);
+    await page.waitForFunction(() => document.querySelector('#usage-bottle').options.length === 2);
+    assert.equal(await page.locator('#usage-bottle').inputValue(), bottle.id);
+    await page.locator('#usage-form [name="amount"]').fill('101'); await page.locator('#usage-form [name="purpose"]').fill('边界测试');
+    await page.locator('#usage-form [type="submit"]').click();
+    await page.waitForFunction(() => document.querySelector('#usage-error').textContent.includes('超过当前余量'));
+    assert.equal(await page.locator('#usage-dialog').isVisible(), true);
+    await page.locator('#usage-person').selectOption(member.id);
+    await page.locator('#usage-form [name="amount"]').fill('0.01'); await page.locator('#usage-unit').selectOption('L');
+    await page.locator('#usage-form [name="purpose"]').fill('<img src=x onerror=alert(1)> 前处理');
+    // Successful write with lost response must be safe to retry.
+    let originalKey, retriedKey;
+    await page.route('**/api/v1/bottles/*/consumptions', async route => {
+      originalKey = route.request().headers()['idempotency-key']; const response = await route.fetch(); assert.equal(response.status(), 201);
+      await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { message: '测试成功响应丢失' } }) });
+    });
+    await page.locator('#usage-form [type="submit"]').click();
+    await page.waitForFunction(() => document.querySelector('#usage-error').textContent.includes('响应丢失'));
+    assert.equal(await page.locator('#usage-person').inputValue(), member.id);
+    await page.unroute('**/api/v1/bottles/*/consumptions');
+    await page.route('**/api/v1/bottles/*/consumptions', async route => { retriedKey = route.request().headers()['idempotency-key']; await route.continue(); });
+    const retry = page.waitForResponse(response => response.request().method() === 'POST' && response.url().endsWith('/consumptions'));
+    await page.locator('#usage-form [type="submit"]').click(); assert.equal((await retry).status(), 200); assert.equal(retriedKey, originalKey);
+    await page.unroute('**/api/v1/bottles/*/consumptions'); await page.locator('#usage-dialog').waitFor({ state: 'hidden' });
+    await page.waitForFunction(() => document.querySelector('#usage-records').textContent.includes('真实成员'));
+    assert.match(await page.locator('#usage-records').innerText(), /90.00 mL/); assert.match(await page.locator('#usage-records').innerText(), /操作者：测试管理员/);
+    assert.equal(await page.locator('#usage-records img').count(), 0);
+    assert.equal(fixture.app.store.db.prepare("SELECT count(*) AS n FROM stock_movements WHERE type = 'consumption'").get().n, 1);
+    assert.equal(await page.locator('#usage-feedback').isVisible(), false);
+    await page.route('**/api/v1/consumptions?page_size=5', route => route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { message: '最近登记加载测试失败' } }) }));
+    await page.evaluate(() => loadRecentUsage());
+    assert.equal(await page.locator('#usage-feedback').isVisible(), true);
+    assert.match(await page.locator('#usage-recent-message').innerText(), /最近登记加载测试失败/);
+    assert.equal(await page.locator('#usage-recent-retry').isVisible(), true);
+    await page.unroute('**/api/v1/consumptions?page_size=5');
+    await page.locator('#usage-recent-retry').click();
+    await page.waitForFunction(() => document.querySelector('#usage-records').textContent.includes('真实成员'));
+    assert.equal(await page.locator('#usage-feedback').isVisible(), false);
+    await page.locator('.usage-panel').screenshot({ path: '/tmp/lab-home-recent-layout.png' });
+    // DEF-005: if the selected bottle has been depleted elsewhere, do not silently switch to another bottle.
+    await page.evaluate(id => openUsage(id), bottle.id);
+    await post(`/bottles/${bottle.id}/consumptions`, { amount: '90', unit: 'mL', used_on: date, purpose: '另一个浏览器领完' });
+    await page.locator('#usage-form [name="amount"]').fill('1'); await page.locator('#usage-form [name="purpose"]').fill('冲突测试');
+    await page.locator('#usage-form [type="submit"]').click();
+    await page.waitForFunction(() => document.querySelector('#usage-error').textContent.includes('无法领用'));
+    assert.equal(await page.locator('#usage-bottle').inputValue(), '', 'DEF-005: unavailable selection must require an explicit new choice');
+    assert.equal(await page.locator('#usage-form [name="amount"]').inputValue(), '1');
+    await page.locator('#usage-dialog [data-close-usage]').first().click();
+    // Members now read shared stock but cannot register usage.
+    const memberContext = await browser.newContext({ reducedMotion: 'reduce' });
+    await memberContext.request.post(origin + '/api/v1/auth/login', { headers: { Origin: origin }, data: memberCredentials });
+    const memberPage = await memberContext.newPage(); await memberPage.goto(origin);
+    await memberPage.waitForFunction(() => document.querySelector('.profile-copy small').textContent === '普通成员');
+    const denied = memberPage.waitForEvent('dialog').then(async alert => { assert.equal(alert.message(), '您没有该权限'); await alert.accept(); }); await memberPage.locator('.welcome-actions [data-open-usage]').click();
+    await denied;
+    assert.equal(await memberPage.locator('#usage-dialog').isVisible(), false); await memberContext.close();
+    // An administrator records the member's usage; save lock and Escape still work.
+    await page.evaluate(id => openUsage(id), otherBottle.id);
+    await page.waitForFunction(() => document.querySelector('#usage-bottle').options.length > 0);
+    await page.locator('#usage-person').selectOption(member.id);
+    await page.locator('#usage-form [name="amount"]').fill('1'); await page.locator('#usage-form [name="purpose"]').fill('管理员代录');
+    let release, requested; const gate = new Promise(resolve => { release = resolve; }), reached = new Promise(resolve => { requested = resolve; }); let requests = 0;
+    await page.route('**/api/v1/bottles/*/consumptions', async route => { requests++; requested(); await gate; await route.continue(); });
+    await page.locator('#usage-form [type="submit"]').click(); await reached;
+    await page.keyboard.press('Escape'); assert.equal(await page.locator('#usage-dialog').isVisible(), true);
+    await page.evaluate(() => document.querySelector('#usage-form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }))); assert.equal(requests, 1); release();
+    await page.locator('#usage-dialog').waitFor({ state: 'hidden' }); await page.unroute('**/api/v1/bottles/*/consumptions');
+    // History contains every operation, can search/filter and has failure retry.
+    for (let i = 0; i < 105; i++) assert.equal((await post(`/bottles/${otherBottle.id}/consumptions`, { amount: '0.01', unit: 'mL', used_on: date, purpose: '超过一百条历史' })).status(), 201);
+    await page.locator('[data-page="history"]').click();
+    await page.waitForFunction(() => document.querySelectorAll('#history-records .history-record').length === 20);
+    assert.match(await page.locator('#history-page-info').innerText(), /110 条/);
+    await page.locator('#history-next').click(); await page.waitForFunction(() => document.querySelector('#history-page-info').textContent.includes('第 2'));
+    await page.locator('#history-filter [name="q"]').fill('真实成员'); await page.locator('#history-filter [type="submit"]').click();
+    await page.waitForFunction(() => document.querySelector('#history-page-info').textContent.includes('2 条'));
+    assert.equal(await page.locator('#history-records .history-record').count(), 2);
+    await page.locator('#history-filter [name="q"]').fill(''); await page.locator('#history-filter [name="type"]').selectOption('receipt'); await page.locator('#history-filter [type="submit"]').click();
+    await page.waitForFunction(() => document.querySelector('#history-page-info').textContent.includes('2 条'));
+    assert.match(await page.locator('#history-records').innerText(), /入库/);
+    await page.route('**/api/v1/movements?*', route => route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { message: '历史测试失败' } }) }));
+    await page.locator('#history-clear').click(); await page.locator('#history-retry').waitFor({ state: 'visible' });
+    await page.unroute('**/api/v1/movements?*'); await page.locator('#history-retry').click();
+    await page.waitForFunction(() => document.querySelectorAll('#history-records .history-record').length === 20);
+    for (const width of [1280, 1440, 1920]) {
+      await page.setViewportSize({ width, height: 900 }); assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `History desktop fits ${width}`);
+      await page.evaluate(id => openUsage(id), otherBottle.id);
+      assert.ok(await page.locator('#usage-dialog').evaluate(el => el.scrollWidth <= el.clientWidth)); await page.locator('#usage-dialog [data-close-usage]').first().click();
+    }
+    await page.screenshot({ path: '/tmp/lab-stock-history.png', fullPage: true });
+    await page.evaluate(id => openBottleDetail(id), otherBottle.id);
+    await page.waitForFunction(() => document.querySelectorAll('#bottle-history .history-record').length === 10);
+    assert.match(await page.locator('#bottle-history-page').innerText(), /107 条/);
+    await page.locator('#bottle-history-next').click();
+    await page.waitForFunction(() => document.querySelector('#bottle-history-page').textContent.includes('第 2'));
+    await page.screenshot({ path: '/tmp/lab-bottle-usage-history.png' });
+    await page.locator('#bottle-detail-dialog .primary-button').click();
+    await page.reload(); await page.waitForFunction(() => document.querySelector('#usage-records').textContent.includes('超过一百条历史'));
+    assert.equal(await page.evaluate(() => localStorage.getItem('pku-lab-consumption-v1')), null);
+    // DEF-007: the default user must be self even if the separate profile request fails.
+    await fixture.app.store.createUser({ account: 'default_race', password: 'Test-default-password', display_name: 'A 用户' });
+    const raceContext = await browser.newContext({ reducedMotion: 'reduce' }); await fixture.signIn(raceContext);
+    const racePage = await raceContext.newPage();
+    await racePage.route('**/api/v1/auth/me', route => route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: { message: '身份展示暂不可用' } }) }));
+    await racePage.goto(origin); await racePage.evaluate(id => openUsage(id), otherBottle.id);
+    const adminId = fixture.app.store.db.prepare("SELECT id FROM users WHERE account = 'test_admin'").get().id;
+    assert.equal(await racePage.locator('#usage-person').inputValue(), adminId, 'DEF-007: use current session identity instead of the first member');
+    await raceContext.close();
+    assert.deepEqual(errors, []);
+    console.log('Consumption desktop validation passed: real bottle stock, failed-save retention, retry keys, conflict refresh, read-only members/admin usage, shared recent history, complete paging, safe text and desktop layout.');
+  } finally { if (browser) await browser.close(); await fixture.close(); }
+})().catch(error => { console.error(error); process.exitCode = 1; });

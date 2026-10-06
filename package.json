@@ -1,0 +1,18 @@
+{
+  "name": "lab-management",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
+  "scripts": {
+    "start": "node backend/server.cjs",
+    "init-admin": "node backend/manage-users.cjs init-admin",
+    "user": "node backend/manage-users.cjs",
+    "test": "node --test tests/auth.test.cjs tests/reagents.test.cjs tests/bottles.test.cjs tests/consumptions.test.cjs tests/dashboard.test.cjs tests/readonly.test.cjs tests/collections.test.cjs tests/settings.test.cjs tests/stress.test.cjs",
+    "test:cli": "python3 tests/validate_auth_cli.py",
+    "test:browser": "node tests/validate_login.cjs && node tests/validate_registration.cjs && node tests/validate_browser.cjs && node tests/validate_reagents.cjs && node tests/validate_backend_audit.cjs && node tests/validate_reagent_defects.cjs && node tests/validate_bottles.cjs && node tests/validate_consumptions.cjs && node tests/validate_dashboard.cjs && node tests/validate_readonly.cjs && node tests/validate_collections.cjs && node tests/validate_settings.cjs && node tests/validate_stress.cjs",
+    "validate": "python3 tests/validate_public_source.py && sh tests/validate_frontend.sh && sh tests/validate_product_design.sh && python3 tests/validate_sqlite_guide.py && npm test && npm run test:cli && npm run test:browser",
+    "seed:lab": "node backend/seed-lab.cjs"
+  }
+}

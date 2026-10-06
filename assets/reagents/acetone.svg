@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="title desc">
+  <title id="title">丙酮安全容器</title>
+  <desc id="desc">银色金属安全罐，红色盖口，正面标签标明丙酮和易燃属性。</desc>
+  <rect width="320" height="220" rx="24" fill="#f2f0eb"/>
+  <path d="M43 181h234" stroke="#d9d5ce" stroke-width="2"/>
+  <ellipse cx="160" cy="181" rx="82" ry="10" fill="#cecac3" opacity=".55"/>
+  <path d="M100 72h120l12 95c1 12-8 22-20 22H108c-12 0-21-10-20-22l12-95Z" fill="#cdd3d5" stroke="#697579" stroke-width="3"/>
+  <path d="M101 84h118M97 112h126M93 166h134" stroke="#edf1f2" stroke-width="3"/>
+  <path d="M132 69V51c0-9 7-16 16-16h25c10 0 18 8 18 18v16" fill="none" stroke="#6b7477" stroke-width="8"/>
+  <rect x="176" y="43" width="43" height="25" rx="8" fill="#7a0019"/>
+  <rect x="184" y="35" width="27" height="13" rx="5" fill="#550012"/>
+  <rect x="111" y="100" width="98" height="55" rx="4" fill="#fffdf8" stroke="#c9c5be"/>
+  <rect x="111" y="100" width="98" height="9" rx="4" fill="#7a0019"/>
+  <text x="160" y="129" text-anchor="middle" fill="#2d2927" font-family="Arial, sans-serif" font-size="14" font-weight="700">丙酮</text>
+  <text x="160" y="146" text-anchor="middle" fill="#77706b" font-family="Arial, sans-serif" font-size="9">ACETONE · HPLC</text>
+  <path d="M195 121c5 8-5 9-1 17-10-2-11-10-5-16 2-2 3-5 2-8 4 1 6 4 4 7Z" fill="#9b2a32"/>
+  <path d="M109 78h9v84h-16Z" fill="#fff" opacity=".3"/>
+</svg>

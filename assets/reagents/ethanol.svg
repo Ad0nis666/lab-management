@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="title desc">
+  <title id="title">无水乙醇试剂瓶</title>
+  <desc id="desc">透明玻璃试剂瓶，装有无色液体，白色标签上写有乙醇。</desc>
+  <rect width="320" height="220" rx="24" fill="#f6f1ea"/>
+  <path d="M40 178h240" stroke="#ded6cc" stroke-width="2"/>
+  <ellipse cx="160" cy="178" rx="75" ry="10" fill="#d8d0c7" opacity=".6"/>
+  <rect x="122" y="38" width="76" height="31" rx="8" fill="#4e3d39"/>
+  <path d="M129 31h62a7 7 0 0 1 7 7H122a7 7 0 0 1 7-7Z" fill="#28211f"/>
+  <path d="M126 66h68v18c0 7 6 13 13 18 9 7 14 18 14 30v33c0 13-10 23-23 23h-76c-13 0-23-10-23-23v-33c0-12 5-23 14-30 7-5 13-11 13-18V66Z" fill="#dcecef" stroke="#65858c" stroke-width="3"/>
+  <path d="M103 135h114v30c0 11-9 20-20 20h-74c-11 0-20-9-20-20v-30Z" fill="#d3edf1" opacity=".86"/>
+  <path d="M119 73h18M113 103c7-5 12-11 13-18" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".75"/>
+  <rect x="112" y="105" width="96" height="54" rx="4" fill="#fffdf8" stroke="#d8d0c5"/>
+  <rect x="112" y="105" width="96" height="9" rx="4" fill="#7a0019"/>
+  <text x="160" y="133" text-anchor="middle" fill="#2d2927" font-family="Arial, sans-serif" font-size="13" font-weight="700">无水乙醇</text>
+  <text x="160" y="149" text-anchor="middle" fill="#77706b" font-family="Arial, sans-serif" font-size="9">ETHANOL · AR</text>
+  <circle cx="194" cy="124" r="5" fill="#7a0019" opacity=".18"/>
+</svg>

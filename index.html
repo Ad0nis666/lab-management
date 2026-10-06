@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#7a0019" />
+    <meta
+      name="description"
+      content="燕园实验室管理系统前端演示，用于试剂、仪器和样本管理。"
+    />
+    <title>燕园实验室 · 管理系统</title>
+    <link rel="icon" type="image/png" href="assets/branding/pku-logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <svg class="svg-sprite" aria-hidden="true">
+      <symbol id="i-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+      </symbol>
+      <symbol id="i-flask" viewBox="0 0 24 24">
+        <path d="M9 3h6M10 3v5l-5.3 9.2A2.5 2.5 0 0 0 6.9 21h10.2a2.5 2.5 0 0 0 2.2-3.8L14 8V3" />
+        <path d="M7.5 16h9" />
+      </symbol>
+      <symbol id="i-scale" viewBox="0 0 24 24">
+        <path d="M12 3v3m-7 2h14M7 8l-4 7h8L7 8Zm10 0-4 7h8l-4-7ZM5 21h14M12 6v15" />
+      </symbol>
+      <symbol id="i-sample" viewBox="0 0 24 24">
+        <path d="M8 3h8M9 3v5l-3.5 8.2A3.5 3.5 0 0 0 8.7 21h6.6a3.5 3.5 0 0 0 3.2-4.8L15 8V3" />
+        <path d="M7 15h10" />
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21h-4v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3.1 14H3v-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.5V3h4v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1v4h-.1a1.7 1.7 0 0 0-1.5 1Z" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-4-4" />
+      </symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
+      <symbol id="i-warning" viewBox="0 0 24 24">
+        <path d="M10.3 4.3 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0Z" />
+        <path d="M12 9v4m0 4h.01" />
+      </symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M16 3v4M8 3v4M3 10h18" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24">
+        <circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" />
+        <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+        <circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-box" viewBox="0 0 24 24">
+        <path d="m4 7 8-4 8 4v10l-8 4-8-4V7Z" />
+        <path d="m4 7 8 4 8-4M12 11v10" />
+      </symbol>
+      <symbol id="i-location" viewBox="0 0 24 24">
+        <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </symbol>
+    </svg>
+
+    <header class="institutional-header">
+        <div class="brand">
+          <img class="brand-logo" width="60" height="60" src="assets/branding/pku-logo.png" alt="北京大学校徽" />
+          <div class="brand-copy">
+            <span class="wordmark-window"><img class="pku-wordmark" src="assets/branding/pku-official-lockup.png" width="852" height="240" alt="北京大学" /></span>
+            <span class="brand-subtitle">深圳研究生院</span>
+          </div>
+        </div>
+      <div class="institutional-title"><strong>实验室台账管理平台</strong></div>
+      <span class="demo-label">演示环境</span>
+    </header>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="主导航">
+        <div class="sidebar-heading"><span>实验室事务</span><button class="icon-button sidebar-close" id="sidebar-close" aria-label="关闭导航"><svg><use href="#i-close" /></svg></button></div>
+
+        <nav class="nav-list">
+          <button class="nav-item is-active" data-page="overview" aria-current="page">
+            <svg aria-hidden="true"><use href="#i-grid" /></svg><span>工作台</span>
+          </button>
+          <button class="nav-item" data-page="reagents">
+            <svg aria-hidden="true"><use href="#i-flask" /></svg><span>试剂管理</span>
+          </button>
+          <button class="nav-item" data-page="history"><svg aria-hidden="true"><use href="#i-calendar" /></svg><span>库存历史</span></button>
+          <button class="nav-item" data-page="instruments">
+            <svg aria-hidden="true"><use href="#i-scale" /></svg><span>仪器管理</span>
+          </button>
+          <button class="nav-item" data-page="samples">
+            <svg aria-hidden="true"><use href="#i-sample" /></svg><span>样本管理</span>
+          </button>
+        </nav>
+
+        <div class="nav-divider"></div>
+        <nav class="nav-list" aria-label="系统导航">
+          <button class="nav-item" data-page="settings">
+            <svg aria-hidden="true"><use href="#i-settings" /></svg><span>基础设置</span>
+          </button>
+        </nav>
+
+      </aside>
+
+      <div class="sidebar-scrim" id="sidebar-scrim" aria-hidden="true"></div>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button class="icon-button menu-button" id="menu-button" aria-label="打开导航" aria-expanded="false">
+              <svg><use href="#i-menu" /></svg>
+            </button>
+            <div>
+              <p class="eyebrow">实验室管理 / 日常事务</p>
+              <h1 id="page-title">工作台</h1>
+            </div>
+          </div>
+          <div class="topbar-actions">
+            <label class="global-search">
+              <svg aria-hidden="true"><use href="#i-search" /></svg>
+              <span class="sr-only">全局搜索</span>
+              <input id="global-search" type="search" placeholder="搜索试剂、CAS 或货号" autocomplete="off" />
+              <kbd>⌘ K</kbd>
+            </label>
+            <button class="icon-button notification-button" aria-label="查看库存提醒">
+              <svg><use href="#i-bell" /></svg><span class="notification-dot" hidden>—</span>
+            </button>
+            <div class="profile-area">
+              <button class="profile-button" aria-label="打开个人菜单" aria-expanded="false" aria-controls="profile-panel">
+                <span class="avatar">…</span><span class="profile-copy"><strong>加载中</strong><small>账号</small></span>
+              </button>
+              <div class="profile-panel" id="profile-panel" hidden>
+                <p id="profile-account"></p>
+                <button data-write-action type="button" id="change-password-button">修改密码</button>
+                <button type="button" id="logout-button">退出登录</button>
+                <p id="auth-message" role="status" aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="page-container">
+          <section class="page-view is-active" id="page-overview" data-title="工作台">
+            <div class="welcome-panel reveal-section">
+              <div>
+                <span class="date-chip" id="today-date">日常工作台</span>
+                <h2>试剂使用，请及时登记。</h2>
+              </div>
+              <div class="welcome-actions"><button data-write-action class="primary-button" data-open-usage><svg aria-hidden="true"><use href="#i-plus" /></svg>登记使用</button><button class="secondary-button" data-go-page="reagents">查询试剂</button></div>
+              <span class="concept-label">试剂、仪器和样本来自真实数据库</span>
+            </div>
+
+            <div class="metric-grid reveal-section" aria-label="实验室概览">
+              <article class="metric-card metric-red">
+                <div class="metric-icon"><svg aria-hidden="true"><use href="#i-flask" /></svg></div>
+                <div><span>在库试剂</span><strong><span id="metric-stocked">—</span><small> 种</small></strong><p><b id="metric-low">—</b> <span id="metric-low-hint">种低于安全库存</span></p></div>
+              </article>
+              <article class="metric-card metric-gold">
+                <div class="metric-icon"><svg aria-hidden="true"><use href="#i-calendar" /></svg></div>
+                <div><span>临期试剂</span><strong><span id="metric-expiry">—</span><small> 瓶</small></strong><p><span id="metric-expiry-hint">未来 60 天内到期</span> · 过期 <b id="metric-expired">—</b> 瓶</p></div>
+              </article>
+              <article class="metric-card metric-green">
+                <div class="metric-icon"><svg aria-hidden="true"><use href="#i-scale" /></svg></div>
+                <div><span>可用仪器</span><strong id="metric-instruments">—</strong><p id="metric-instruments-hint">正在读取仪器状态</p></div>
+              </article>
+              <article class="metric-card metric-blue">
+                <div class="metric-icon"><svg aria-hidden="true"><use href="#i-sample" /></svg></div>
+                <div><span>在库样本</span><strong id="metric-samples">—</strong><p>按在库样本记录数统计</p></div>
+              </article>
+            </div>
+
+            <div class="dashboard-grid reveal-section">
+              <section class="panel inventory-panel" aria-labelledby="inventory-title">
+                <div class="panel-header">
+                  <div><h2 id="inventory-title">库存关注</h2></div>
+                  <button class="text-button" data-go-page="reagents">查看全部<svg aria-hidden="true"><use href="#i-arrow" /></svg></button>
+                </div>
+                <div class="filter-row" role="group" aria-label="提醒筛选">
+                  <button class="filter-chip is-active" data-filter="all" aria-pressed="true">全部 <span>—</span></button>
+                  <button class="filter-chip" data-filter="low" aria-pressed="false">库存不足 <span>—</span></button>
+                  <button class="filter-chip" data-filter="expiry" aria-pressed="false">即将到期 <span>—</span></button>
+                  <button class="filter-chip" data-filter="expired" aria-pressed="false">已过期 <span>—</span></button>
+                  <button class="filter-chip" data-filter="calibration" aria-pressed="false">仪器校准 <span>—</span></button>
+                </div>
+                <p id="dashboard-message" class="form-message" role="status" aria-live="polite"></p>
+                <button id="dashboard-retry" class="text-button" hidden>重新加载提醒</button>
+                <div class="table-wrap">
+                  <table class="inventory-table">
+                    <thead><tr><th>试剂 / 仪器名称</th><th>存放位置</th><th>当前余量</th><th>状态</th><th><span class="sr-only">操作</span></th></tr></thead>
+                    <tbody id="inventory-body"></tbody>
+                  </table>
+                </div>
+                <div class="dashboard-pagination" role="group" aria-label="库存关注分页"><button id="dashboard-prev" class="secondary-button" disabled>上一页</button><span id="dashboard-page"></span><button id="dashboard-next" class="secondary-button" disabled>下一页</button></div>
+              </section>
+
+              <aside class="panel attention-panel" aria-labelledby="attention-title">
+                <div class="panel-header">
+                  <div><h2 id="attention-title">仪器待确认 / 待处理</h2></div>
+                  <span class="count-badge" id="equipment-pending-count">—</span>
+                </div>
+                <ol class="task-list" id="equipment-pending"></ol>
+              </aside>
+            </div>
+
+
+            <section class="panel usage-panel" aria-labelledby="usage-title">
+              <div class="panel-header">
+                <div><h2 id="usage-title">最近使用登记</h2><p class="panel-description">真实记录使用人、操作者、单瓶用量和用途。</p></div>
+                <div class="panel-actions">
+                  <button class="text-button" data-go-page="history">查看完整库存历史<svg aria-hidden="true"><use href="#i-arrow" /></svg></button>
+                  <button data-write-action class="text-button" data-open-usage>登记使用<svg aria-hidden="true"><use href="#i-plus" /></svg></button>
+                </div>
+              </div>
+              <div class="usage-feedback" id="usage-feedback" hidden>
+                <p id="usage-recent-message" role="status" aria-live="polite"></p>
+                <button class="text-button" id="usage-recent-retry" hidden>重新加载</button>
+              </div>
+              <div id="usage-records" class="usage-records" aria-live="polite"><p class="usage-empty">尚无使用记录。完成一次登记后，记录会显示在这里。</p></div>
+            </section>
+            <section class="panel equipment-panel reveal-section" aria-labelledby="equipment-title">
+              <div class="panel-header">
+                <div><h2 id="equipment-title">仪器运行状态</h2></div>
+                <button class="text-button" data-go-page="instruments">仪器台账<svg aria-hidden="true"><use href="#i-arrow" /></svg></button>
+              </div>
+              <div class="equipment-row" id="equipment-summary">
+
+              </div>
+            </section>
+          </section>
+
+          <section class="page-view" id="page-reagents" data-title="试剂管理" hidden>
+            <div class="list-page-header"><div><h2>试剂台账</h2><p>管理试剂档案、单瓶入库与真实库存。</p></div><button data-write-action class="primary-button" data-open-dialog="reagent-dialog"><svg aria-hidden="true"><use href="#i-plus" /></svg>登记新试剂</button></div>
+            <div class="panel toolbar-panel"><label class="list-search"><svg aria-hidden="true"><use href="#i-search" /></svg><span class="sr-only">搜索试剂</span><input id="reagent-search" type="search" placeholder="搜索名称、CAS 或货号" /></label><div class="toolbar-meta"><span id="reagent-total">正在加载档案…</span></div></div>
+            <p class="form-message" id="reagent-list-message" role="status" aria-live="polite"></p>
+            <button class="secondary-button" id="reagent-retry" hidden>重新加载</button>
+            <div class="catalog-grid" id="reagent-catalog"></div>
+            <p class="empty-state" id="reagent-empty" hidden>暂无试剂档案。管理员可登记第一份档案。</p>
+            <div class="dialog-actions" id="reagent-pagination"><button class="secondary-button" id="reagent-prev" disabled>上一页</button><span id="reagent-page-info" aria-live="polite"></span><button class="secondary-button" id="reagent-next" disabled>下一页</button></div>
+          </section>
+
+          <section class="page-view" id="page-history" data-title="库存历史" hidden>
+            <div class="list-page-header"><div><h2>完整库存流水</h2><p>查询入库与领用，追踪实际使用人、操作者及数量变化。</p></div></div>
+            <form id="history-filter" class="panel history-filters">
+              <label class="field"><span>搜索</span><input name="q" type="search" maxlength="100" placeholder="试剂、瓶号、姓名或用途" /></label>
+              <label class="field"><span>流水类型</span><select name="type"><option value="">全部</option><option value="receipt">入库</option><option value="consumption">领用</option></select></label>
+              <label class="field"><span>开始日期</span><input name="date_from" type="date" /></label><label class="field"><span>结束日期</span><input name="date_to" type="date" /></label>
+              <button class="primary-button" type="submit">查询历史</button><button class="secondary-button" type="button" id="history-clear">重置</button>
+            </form>
+            <p id="history-message" class="form-message" role="status" aria-live="polite"></p><button class="secondary-button" id="history-retry" hidden>重新加载历史</button>
+            <div id="history-records" class="panel history-records"></div>
+            <div class="dialog-actions"><button class="secondary-button" id="history-prev" disabled>上一页</button><span id="history-page-info" aria-live="polite"></span><button class="secondary-button" id="history-next" disabled>下一页</button></div>
+          </section>
+
+          <section class="page-view" id="page-instruments" data-title="仪器管理" hidden>
+            <div class="list-page-header"><div><h2>仪器台账</h2><p>记录设备状态、负责人和校准维护计划。</p></div><button data-write-action data-new-collection="instruments" class="primary-button"><svg aria-hidden="true"><use href="#i-plus" /></svg>登记仪器</button></div>
+            <div class="toolbar-panel collection-toolbar"><label class="field"><span>搜索仪器</span><input id="instruments-search" type="search" maxlength="100" placeholder="名称、编号或存放位置" /></label></div>
+            <p id="instruments-message" role="status" aria-live="polite"></p><button id="instruments-retry" class="secondary-button" hidden>重试加载</button>
+            <div id="instruments-list" class="instrument-grid"></div>
+            <div class="dialog-actions"><button id="instruments-prev" class="secondary-button" disabled>上一页</button><span id="instruments-page-info"></span><button id="instruments-next" class="secondary-button" disabled>下一页</button></div>
+          </section>
+
+          <section class="page-view" id="page-samples" data-title="样本管理" hidden>
+            <div class="list-page-header"><div><h2>样本台账</h2><p>记录样本编号、项目、数量和存放位置。</p></div><button data-write-action data-new-collection="samples" class="primary-button"><svg aria-hidden="true"><use href="#i-plus" /></svg>登记样本</button></div>
+            <div class="toolbar-panel collection-toolbar"><label class="field"><span>搜索样本</span><input id="samples-search" type="search" maxlength="100" placeholder="名称、编号或存放位置" /></label></div>
+            <p id="samples-message" role="status" aria-live="polite"></p><button id="samples-retry" class="secondary-button" hidden>重试加载</button>
+            <div id="samples-list" class="panel sample-list"></div>
+            <div class="dialog-actions"><button id="samples-prev" class="secondary-button" disabled>上一页</button><span id="samples-page-info"></span><button id="samples-next" class="secondary-button" disabled>下一页</button></div>
+          </section>
+
+          <section class="page-view" id="page-settings" data-title="基础设置" hidden>
+            <div class="list-page-header"><div><h2>基础设置</h2><p>查看实验室成员、提醒规则与台账使用说明。</p></div></div>
+            <div id="settings-home">
+              <div class="settings-grid">
+                <button class="setting-card" data-settings-view="members"><svg aria-hidden="true"><use href="#i-grid" /></svg><span><strong>成员与角色</strong><small>查看实验室成员，管理账号状态和操作权限。</small></span><svg aria-hidden="true"><use href="#i-arrow" /></svg></button>
+                <button class="setting-card" data-settings-view="reminders"><svg aria-hidden="true"><use href="#i-bell" /></svg><span><strong>提醒规则</strong><small>设置试剂库存、有效期及仪器校准提醒。</small></span><svg aria-hidden="true"><use href="#i-arrow" /></svg></button>
+                <button class="setting-card" data-settings-view="help"><svg aria-hidden="true"><use href="#i-grid" /></svg><span><strong>使用帮助</strong><small>查看台账操作说明与常见问题。</small></span><svg aria-hidden="true"><use href="#i-arrow" /></svg></button>
+              </div>
+            </div>
+            <div id="settings-content" hidden>
+              <div class="settings-subheader"><button class="secondary-button settings-back" id="settings-back" type="button"><svg aria-hidden="true"><use href="#i-arrow" /></svg><span>返回基础设置</span></button><h3 id="settings-title" tabindex="-1"></h3><p>管理员维护配置，普通成员可查看。账号通过登录页注册。</p></div>
+              <section id="settings-members" class="panel settings-panel" hidden aria-label="成员与角色">
+                <form id="members-filter" class="settings-filters">
+                  <label>姓名或账号<input name="q" type="search" maxlength="100" placeholder="搜索成员" /></label>
+                  <label>角色<select name="role"><option value="">全部角色</option><option value="admin">管理员</option><option value="member">普通成员</option></select></label>
+                  <label>账号状态<select name="active"><option value="">全部状态</option><option value="1">启用</option><option value="0">停用</option></select></label>
+                  <button class="secondary-button" type="submit">查询</button>
+                </form>
+                <p id="members-summary" class="settings-note"></p>
+                <p id="members-message" class="form-message" role="status" aria-live="polite"></p><button id="members-retry" class="text-button" hidden>重新加载成员</button>
+                <div class="table-wrap"><table class="inventory-table settings-table"><thead><tr><th>姓名 / 账号</th><th>角色</th><th>账号状态</th><th>创建 / 更新时间</th><th>操作</th></tr></thead><tbody id="members-body"></tbody></table></div>
+                <div class="dashboard-pagination"><button class="secondary-button" id="members-prev" disabled>上一页</button><span id="members-page-info"></span><button class="secondary-button" id="members-next" disabled>下一页</button></div>
+              </section>
+              <section id="settings-reminders" class="panel settings-panel" hidden aria-label="提醒规则">
+                <p id="reminders-message" class="form-message" role="status" aria-live="polite"></p><button id="reminders-retry" class="text-button" hidden>重新加载规则</button>
+                <form id="reminders-form" data-write-form>
+                  <fieldset id="reminders-fields" disabled>
+                    <div class="reminder-rule"><label><input name="low_enabled" type="checkbox" />低库存提醒</label><p>可领库存严格低于档案阈值时提醒；阈值为 0 时不提醒。</p></div>
+                    <div class="reminder-rule"><label><input name="expiry_enabled" type="checkbox" />试剂临期提醒</label><label class="days-field">提前天数<input name="expiry_days" type="number" min="0" max="365" step="1" required /><span>天（0–365）</span></label><p>按单瓶有效期计算，含今天及边界日。过期提醒始终保留。</p></div>
+                    <div class="reminder-rule"><label><input name="calibration_enabled" type="checkbox" />仪器校准提醒</label><label class="days-field">提前天数<input name="calibration_days" type="number" min="0" max="365" step="1" required /><span>天（0–365）</span></label><p>按下次校准日期计算，包含即将到期与已逾期；未填写日期时不提醒。</p></div>
+                  </fieldset>
+                  <p class="settings-note">日期按北京时间计算。关闭提醒不会修改库存、有效期、仪器状态或过期瓶的领用限制。</p>
+                  <div class="settings-save"><button class="primary-button" data-write-action type="submit" id="reminders-save">保存提醒规则</button><button class="secondary-button" type="button" id="reminders-reload">重新加载</button><span id="reminders-updated"></span></div>
+                </form>
+              </section>
+              <section id="settings-help" class="panel settings-panel help-content" hidden aria-label="使用帮助">
+                <h4>账号与权限</h4>
+                <details><summary>如何注册、登录并获得管理员权限？</summary><p>在登录页点击“注册账号”，填写姓名、账号、密码及确认密码。注册账号固定为普通成员。已有管理员进入“基础设置 → 成员与角色”，找到成员并点击“设为管理员”，确认后该成员重新登录即可获得权限。首次使用须先通过终端初始化首位管理员。</p></details>
+                <details><summary>普通成员能做什么？“您没有该权限”是什么意思？</summary><p>普通成员只读，可查询台账、库存历史、成员、提醒规则和帮助。业务登记、编辑、角色和账号状态调整、规则保存均由管理员操作。尝试修改时提示“您没有该权限”。角色或账号状态变化会使原登录失效；账号恢复后需重新登录。最后一位有效管理员不能被降级或停用。</p></details>
+                <h4>试剂管理</h4>
+                <details><summary>档案与单瓶库存有什么区别？如何入库和查询？</summary><p>档案保存试剂名称、规格、库存单位与低库存阈值；单瓶记录瓶号、批次、数量、位置和有效期。管理员先在“试剂管理”建立档案，再登记单瓶入库。列表支持查询，点击“查看详情”可查看档案及各瓶库存。</p></details>
+                <h4>使用登记与历史</h4>
+                <details><summary>实际使用人与操作者有什么区别？如何换算单位？</summary><p>管理员在“登记领用”选择试剂瓶、实际使用人、数量、日期和用途。实际使用人是领用归属成员，操作者是提交登记的管理员。系统支持 L 与 mL、kg 与 g 换算，不支持 kg 与 L 等质量和体积混算。过期瓶不可领用，库存不足时不能超领。</p></details>
+                <details><summary>如何追溯历史或处理登记错误？</summary><p>“库存历史”保留入库与领用流水，可按条件查询并查看使用人与操作者。停用成员不删除其历史。目前没有冲销更正入口，不能直接修改或删除流水；登记错误请由管理员核对原记录，再决定后续处理。</p></details>
+                <h4>仪器与样本</h4>
+                <details><summary>如何登记、查询和编辑仪器与样本？</summary><p>管理员从对应页面登记或编辑，所有成员均可搜索及查看详情。仪器运行状态由登记维护，下次校准日期用于日期提醒；故障、维护中、待校准及待确认状态独立展示。样本支持在库、使用中、已用尽和已废弃状态，由管理员核对实际情况维护。</p></details>
+                <h4>提醒与常见问题</h4>
+                <details><summary>低库存、临期、过期与校准提醒如何计算？</summary><p>低库存按可领量与档案阈值比较；临期和校准提醒按规则提前天数判断，包含今天与边界日。过期与校准逾期按日期自动判断。提醒规则由管理员保存并用于工作台。日期未知的试剂瓶不生成临期或过期提醒，校准日期为空的仪器不生成日期提醒；报废、耗尽及无余量瓶不参与有效期提醒。</p></details>
+                <details><summary>加载失败、保存冲突或登录失效怎么办？</summary><p>加载失败可点击重新加载并检查网络；保存冲突表示记录已被其他操作更新，重新加载后核对再保存。登录失效请重新登录，停用账号须先由管理员恢复。关闭提醒不会改变业务数据，也不会解除过期瓶的领用限制。</p></details>
+              </section>
+            </div>
+          </section>
+          <footer class="app-footer"><span>北京大学 · 深圳研究生院</span><span>试剂、仪器、样本及使用记录保存在数据库中</span></footer>
+        </div>
+      </main>
+    </div>
+
+    <dialog class="form-dialog" id="reagent-dialog" aria-labelledby="dialog-title">
+      <form id="reagent-form" data-write-form>
+        <div class="dialog-header"><h2 id="dialog-title">登记新试剂</h2><button class="icon-button" type="button" data-close-reagent aria-label="关闭"><svg aria-hidden="true"><use href="#i-close" /></svg></button></div>
+        <p id="reagent-error" class="form-message" role="alert" tabindex="-1"></p>
+        <div class="form-grid">
+          <label class="field field-wide"><span>试剂名称</span><input name="name" required maxlength="100" placeholder="例如：无水乙醇" /></label>
+          <label class="field"><span>CAS 号（选填）</span><input name="cas" maxlength="20" placeholder="例如：64-17-5" /></label>
+          <label class="field"><span>纯度 / 规格</span><input name="grade" maxlength="80" placeholder="例如：分析纯 AR" /></label>
+          <label class="field"><span>供应商</span><input name="supplier" maxlength="120" /></label>
+          <label class="field"><span>货号</span><input name="catalog_no" maxlength="80" /></label>
+          <label class="field"><span>分类</span><input name="category" maxlength="80" placeholder="例如：有机溶剂" /></label>
+          <label class="field"><span>计量单位</span><select name="stock_unit"><option>mL</option><option>L</option><option>g</option><option>kg</option></select></label>
+          <label class="field"><span>低库存阈值</span><input name="low_stock_threshold" type="number" min="0" max="999999999.99" step="0.01" required value="0" /></label>
+          <label class="field field-wide"><span>危险性标签</span><input name="hazard_tags" maxlength="200" placeholder="例如：易燃、腐蚀性" /></label>
+        </div>
+        <p class="form-hint">本次保存试剂档案；保存后可登记单瓶入库。分类和危险性标签使用文字记录。</p>
+        <div class="dialog-actions"><button class="secondary-button" type="button" data-close-reagent>取消</button><button class="primary-button" type="submit">保存试剂</button></div>
+      </form>
+    </dialog>
+    <dialog class="form-dialog" id="reagent-detail-dialog" aria-labelledby="reagent-detail-title">
+      <form method="dialog">
+        <div class="dialog-header"><h2 id="reagent-detail-title">试剂档案</h2><button class="icon-button" aria-label="关闭档案详情"><svg aria-hidden="true"><use href="#i-close" /></svg></button></div>
+        <p id="reagent-detail-message" role="status" aria-live="polite"></p>
+        <dl id="reagent-detail" class="reagent-detail"></dl>
+        <section class="bottle-section" aria-labelledby="bottle-list-title">
+          <div class="dialog-header"><h3 id="bottle-list-title">单瓶库存</h3><button data-write-action class="secondary-button" type="button" id="detail-open-bottle" hidden>登记单瓶入库</button></div>
+          <p id="bottle-list-message" role="status" aria-live="polite"></p>
+          <button class="secondary-button" type="button" id="bottle-list-retry" hidden>重试单瓶列表</button>
+          <div id="bottle-list"></div>
+          <div class="dialog-actions"><button class="secondary-button" type="button" id="bottle-prev" disabled>上一页</button><span id="bottle-page-info"></span><button class="secondary-button" type="button" id="bottle-next" disabled>下一页</button></div>
+        </section>
+        <div class="dialog-actions"><button class="secondary-button" id="reagent-detail-retry" type="button" hidden>重试详情</button><button class="primary-button">关闭</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="form-dialog" id="bottle-dialog" aria-labelledby="bottle-dialog-title">
+      <form id="bottle-form" data-write-form>
+        <div class="dialog-header"><h2 id="bottle-dialog-title">登记单瓶入库</h2><button class="icon-button" type="button" data-close-bottle aria-label="关闭入库"><svg aria-hidden="true"><use href="#i-close" /></svg></button></div>
+        <p id="bottle-reagent-name" class="form-hint"></p>
+        <p id="bottle-error" class="form-message" role="alert" tabindex="-1"></p>
+        <div class="form-grid">
+          <label class="field"><span>瓶号（留空自动生成）</span><input name="bottle_code" maxlength="80" pattern="[a-zA-Z0-9_.\-]+" placeholder="例如：BT-20261006-001" /></label>
+          <label class="field"><span>批次（选填）</span><input name="batch_no" maxlength="80" /></label>
+          <label class="field"><span>初始量</span><input name="initial_quantity" type="number" min="0.01" max="999999999.99" step="0.01" required /></label>
+          <label class="field"><span>单位</span><select name="unit"><option>mL</option><option>L</option><option>g</option><option>kg</option></select></label>
+          <label class="field field-wide"><span>存放位置（选填）</span><input name="location" maxlength="120" placeholder="例如：A103 · 试剂柜 A · 第 2 层" /></label>
+          <label class="field"><span>入库日期</span><input name="received_on" type="date" required min="1900-01-01" /></label>
+          <label class="field"><span>有效期至（选填）</span><input name="expires_on" type="date" min="1900-01-01" /></label>
+        </div>
+        <p class="form-hint">每次登记一瓶，仅支持精确数量；瓶号不区分大小写。位置以文字保存。过期瓶可补录，但不计入可领库存。</p>
+        <div class="dialog-actions"><button class="secondary-button" type="button" data-close-bottle>取消</button><button class="primary-button" type="submit">保存入库</button></div>
+      </form>
+    </dialog>
+    <dialog class="form-dialog" id="bottle-detail-dialog" aria-labelledby="bottle-detail-title">
+      <form method="dialog">
+        <div class="dialog-header"><h2 id="bottle-detail-title">单瓶详情</h2><button class="icon-button" aria-label="关闭单瓶详情"><svg aria-hidden="true"><use href="#i-close" /></svg></button></div>
+        <p id="bottle-detail-message" role="status" aria-live="polite"></p>
+        <dl id="bottle-detail" class="reagent-detail"></dl>
+        <section class="bottle-section"><div class="dialog-header"><h3>本瓶完整流水</h3><button data-write-action class="secondary-button" id="bottle-open-usage" type="button" hidden>登记领用</button></div><p id="bottle-history-message" role="status" aria-live="polite"></p><button id="bottle-history-retry" class="secondary-button" type="button" hidden>重新加载流水</button><div id="bottle-history"></div><div class="dialog-actions"><button id="bottle-history-prev" class="secondary-button" type="button" disabled>上一页</button><span id="bottle-history-page"></span><button id="bottle-history-next" class="secondary-button" type="button" disabled>下一页</button></div></section>
+        <div class="dialog-actions"><button class="secondary-button" type="button" id="bottle-detail-retry" hidden>重试详情</button><button class="primary-button">关闭</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="form-dialog" id="usage-dialog" aria-labelledby="usage-dialog-title">
+      <form id="usage-form" data-write-form novalidate>
+        <div class="dialog-header"><h2 id="usage-dialog-title">按瓶登记领用</h2><button class="icon-button" type="button" data-close-usage aria-label="关闭使用登记"><svg aria-hidden="true"><use href="#i-close" /></svg></button></div>
+        <p id="usage-error" class="form-message" role="alert" tabindex="-1"></p>
+        <div class="form-grid">
+          <label class="field field-wide"><span>搜索可领单瓶</span><input id="usage-bottle-search" type="search" maxlength="100" placeholder="试剂名称、瓶号、批次或位置" /></label>
+          <label class="field field-wide"><span>具体单瓶</span><select name="bottle_id" id="usage-bottle" required></select></label>
+          <p id="usage-options-message" class="form-hint field-wide" role="status" aria-live="polite"></p>
+          <div class="dialog-actions field-wide"><button type="button" class="secondary-button" id="usage-options-prev" disabled>上一页</button><span id="usage-options-page"></span><button type="button" class="secondary-button" id="usage-options-next" disabled>下一页</button><button type="button" class="secondary-button" id="usage-options-retry" hidden>重试</button></div>
+          <p class="stock-hint field-wide" id="usage-stock"></p>
+          <label class="field"><span>使用量</span><input name="amount" type="number" min="0.01" step="0.01" required aria-describedby="usage-error" /></label>
+          <label class="field"><span>单位</span><select name="unit" id="usage-unit"><option>mL</option><option>L</option><option>g</option><option>kg</option></select></label>
+          <label class="field"><span>使用日期</span><input name="used_on" type="date" required min="1900-01-01" aria-describedby="usage-error" /></label>
+          <label class="field"><span>实际使用人</span><select name="used_by" id="usage-person" required></select></label>
+          <label class="field field-wide"><span>实验用途</span><input name="purpose" required maxlength="200" aria-describedby="usage-error" /></label>
+        </div>
+        <p class="form-hint">选择具体单瓶。成员登记本人；管理员可代录，操作者自动记录。数量换算须能以单瓶单位的两位小数准确保存。</p>
+        <div class="dialog-actions"><button class="secondary-button" type="button" data-close-usage>取消</button><button class="primary-button" type="submit">保存领用</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="form-dialog" id="password-dialog" aria-labelledby="password-dialog-title">
+      <form id="password-form" data-write-form>
+        <div class="dialog-header"><h2 id="password-dialog-title">修改密码</h2><button class="icon-button" type="button" data-close-password aria-label="关闭修改密码"><svg><use href="#i-close" /></svg></button></div>
+        <div class="form-grid">
+          <label class="field field-wide"><span>原密码</span><input name="current_password" type="password" autocomplete="current-password" required maxlength="128" /></label>
+          <label class="field field-wide"><span>新密码</span><input name="new_password" type="password" autocomplete="new-password" required minlength="9" maxlength="128" aria-describedby="password-hint password-error" /></label>
+          <label class="field field-wide"><span>再次输入新密码</span><input name="confirm_password" type="password" autocomplete="new-password" required minlength="9" maxlength="128" /></label>
+        </div>
+        <p class="form-hint" id="password-hint">使用 9–128 位密码。修改成功后，需要重新登录。</p>
+        <p class="form-message" id="password-error" role="status" aria-live="polite"></p>
+        <div class="dialog-actions"><button class="secondary-button" type="button" data-close-password>取消</button><button class="primary-button" type="submit">保存新密码</button></div>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"><svg aria-hidden="true"><use href="#i-check" /></svg><span>试剂已登记</span></div>
+    <dialog class="form-dialog" id="instruments-dialog" aria-labelledby="instruments-dialog-title">
+      <form id="instruments-form" data-write-form>
+        <div class="dialog-header"><h2 id="instruments-dialog-title">登记仪器</h2><button class="icon-button" type="button" data-close-collection="instruments" aria-label="关闭"><svg aria-hidden="true"><use href="#i-close" /></svg></button></div>
+        <p id="instruments-error" class="form-message" role="alert" tabindex="-1"></p><div class="form-grid"><label class="field"><span>编号（唯一）</span><input name="code" type="text" maxlength="80" required /></label><label class="field"><span>名称</span><input name="name" type="text" maxlength="100" required /></label><label class="field"><span>仪器类型</span><select name="kind"><option value="robot">机械臂</option><option value="balance">天平</option><option value="pump">药瓶泵</option><option value="other">其他</option></select></label><label class="field"><span>型号（选填）</span><input name="model" type="text" maxlength="100"  /></label><label class="field"><span>存放位置（选填）</span><input name="location" type="text" maxlength="120"  /></label><label class="field"><span>负责人（选填）</span><input name="owner" type="text" maxlength="80"  /></label><label class="field"><span>运行状态</span><select name="status"><option value="unknown">待确认</option><option value="normal">运行正常</option><option value="fault">故障</option><option value="calibration">待校准</option><option value="maintenance">维护中</option></select></label><label class="field"><span>下次校准（选填）</span><input name="calibration_on" type="date" maxlength="10"  /></label><label class="field"><span>备注（选填）</span><input name="notes" type="text" maxlength="500"  /></label></div>
+        <div class="dialog-actions"><button class="secondary-button" type="button" data-close-collection="instruments">取消</button><button class="primary-button" type="submit">保存仪器</button></div>
+      </form>
+    </dialog>
+    <dialog class="form-dialog" id="samples-dialog" aria-labelledby="samples-dialog-title">
+      <form id="samples-form" data-write-form>
+        <div class="dialog-header"><h2 id="samples-dialog-title">登记样本</h2><button class="icon-button" type="button" data-close-collection="samples" aria-label="关闭"><svg aria-hidden="true"><use href="#i-close" /></svg></button></div>
+        <p id="samples-error" class="form-message" role="alert" tabindex="-1"></p><div class="form-grid"><label class="field"><span>编号（唯一）</span><input name="code" type="text" maxlength="80" required /></label><label class="field"><span>名称</span><input name="name" type="text" maxlength="100" required /></label><label class="field"><span>所属项目（选填）</span><input name="project" type="text" maxlength="120"  /></label><label class="field"><span>数量（最多两位小数）</span><input name="quantity" type="text" maxlength="12" required /></label><label class="field"><span>数量单位</span><input name="unit" type="text" maxlength="20" required /></label><label class="field"><span>存放位置</span><input name="location" type="text" maxlength="120" required /></label><label class="field"><span>状态</span><select name="status"><option value="stored">在库</option><option value="in_use">使用中</option><option value="exhausted">已用尽</option><option value="discarded">已废弃</option></select></label><label class="field"><span>备注（选填）</span><input name="notes" type="text" maxlength="500"  /></label></div>
+        <div class="dialog-actions"><button class="secondary-button" type="button" data-close-collection="samples">取消</button><button class="primary-button" type="submit">保存样本</button></div>
+      </form>
+    </dialog>
+    <dialog class="form-dialog" id="collection-detail-dialog" aria-labelledby="collection-detail-title">
+      <form method="dialog"><div class="dialog-header"><h2 id="collection-detail-title">档案详情</h2><button class="icon-button" aria-label="关闭详情"><svg aria-hidden="true"><use href="#i-close" /></svg></button></div>
+      <p id="collection-detail-message" role="status" aria-live="polite"></p><dl class="reagent-detail" id="collection-detail"></dl>
+      <div class="dialog-actions"><button class="secondary-button" type="button" id="collection-detail-retry" hidden>重试详情</button><button data-write-action class="secondary-button" type="button" id="collection-detail-edit" hidden>编辑档案</button><button class="primary-button">关闭</button></div></form>
+    </dialog>
+    <script src="permissions.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+    <script src="bottles.js"></script>
+    <script src="usage.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="collections.js"></script>
+    <script src="settings.js"></script>
+  </body>
+</html>

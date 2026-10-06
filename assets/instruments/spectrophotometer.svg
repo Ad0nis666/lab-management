@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 230" role="img" aria-labelledby="title desc">
+  <title id="title">紫外分光光度计</title>
+  <desc id="desc">具有样品仓和触控屏的台式紫外分光光度计。</desc>
+  <rect width="360" height="230" rx="24" fill="#eff2f1"/>
+  <ellipse cx="180" cy="198" rx="126" ry="11" fill="#c9cfcd" opacity=".6"/>
+  <path d="M68 105c0-13 10-24 23-25l183-15c11-1 20 8 20 19v98c0 10-8 18-18 18H86c-10 0-18-8-18-18v-77Z" fill="#e4e8e6" stroke="#6f7977" stroke-width="3"/>
+  <path d="m86 84 188-16c10-1 18 7 18 17v28H68v-8c0-11 8-20 18-21Z" fill="#d0d7d5"/>
+  <path d="M93 95h90l25 18H73Z" fill="#b4bfbc"/>
+  <rect x="100" y="87" width="75" height="11" rx="4" fill="#55615f"/>
+  <rect x="221" y="82" width="52" height="35" rx="5" fill="#243c3d"/>
+  <path d="m229 107 8-9 7 4 8-12 13 11" fill="none" stroke="#8fd1bd" stroke-width="2"/>
+  <rect x="88" y="132" width="184" height="48" rx="7" fill="#f2f4f3"/>
+  <circle cx="243" cy="156" r="8" fill="#7a0019"/>
+  <circle cx="218" cy="156" r="8" fill="#aeb6b4"/>
+  <rect x="102" y="144" width="82" height="24" rx="4" fill="#d8dedc"/>
+  <rect x="78" y="199" width="19" height="6" rx="3" fill="#515957"/>
+  <rect x="264" y="199" width="19" height="6" rx="3" fill="#515957"/>
+</svg>

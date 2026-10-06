@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" role="img" aria-labelledby="title desc">
+  <title id="title">硝酸银避光试剂瓶</title>
+  <desc id="desc">棕色避光玻璃瓶，瓶中装有白色硝酸银晶体。</desc>
+  <rect width="320" height="220" rx="24" fill="#f4efe6"/>
+  <circle cx="60" cy="54" r="28" fill="#e9dfcf"/>
+  <path d="M42 178h236" stroke="#d9cdbd" stroke-width="2"/>
+  <ellipse cx="160" cy="179" rx="73" ry="10" fill="#cfc1af" opacity=".55"/>
+  <rect x="124" y="35" width="72" height="34" rx="7" fill="#17191b"/>
+  <path d="M130 30h60a6 6 0 0 1 6 6h-72a6 6 0 0 1 6-6Z" fill="#343638"/>
+  <path d="M128 66h64v16c0 8 7 15 15 21 8 6 13 16 13 27v37c0 12-10 22-22 22h-76c-12 0-22-10-22-22v-37c0-11 5-21 13-27 8-6 15-13 15-21V66Z" fill="#855121" stroke="#58320f" stroke-width="3"/>
+  <path d="M105 149c17-8 33-2 51-7 20-6 40-1 59 7v19c0 10-8 17-18 17h-74c-10 0-18-7-18-17v-19Z" fill="#efe8dc" opacity=".94"/>
+  <path d="m119 153 8 9 8-11 9 13 10-12 10 11 11-13 10 12 9-9" fill="none" stroke="#c9bca8" stroke-width="3"/>
+  <path d="M120 78c0 15-10 23-14 31" stroke="#d59b5c" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+  <rect x="111" y="106" width="98" height="48" rx="4" fill="#fbf7ed" stroke="#cabda9"/>
+  <rect x="111" y="106" width="98" height="8" rx="4" fill="#7a0019"/>
+  <text x="160" y="133" text-anchor="middle" fill="#2d2927" font-family="Arial, sans-serif" font-size="13" font-weight="700">硝酸银</text>
+  <text x="160" y="147" text-anchor="middle" fill="#77706b" font-family="Arial, sans-serif" font-size="9">AgNO₃ · AR · 避光</text>
+</svg>

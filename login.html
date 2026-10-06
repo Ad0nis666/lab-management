@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>账号登录 · 实验室台账管理平台</title>
+    <link rel="icon" type="image/png" href="assets/branding/pku-logo.png" />
+    <link rel="stylesheet" href="login.css" />
+    <script src="login.js" defer></script>
+  </head>
+  <body>
+    <main class="login-layout">
+      <section class="brand-panel" aria-labelledby="platform-title">
+        <header class="university-brand">
+          <img class="university-seal" src="assets/branding/pku-logo.png" width="60" height="60" alt="北京大学校徽" />
+          <div class="university-name">
+            <span class="wordmark-window"><img src="assets/branding/pku-official-lockup.png" width="852" height="240" alt="北京大学" /></span>
+            <span class="brand-subtitle">深圳研究生院</span>
+          </div>
+        </header>
+        <div class="platform-intro">
+          <h1 id="platform-title">实验室台账<br />管理平台</h1>
+          <p>药品使用登记、仪器台账与样本管理。</p>
+        </div>
+        <footer class="brand-footer"><span>北京大学</span><span>实验室日常事务</span></footer>
+      </section>
+      <section class="form-panel" aria-labelledby="login-title">
+        <div class="login-content">
+          <header class="login-heading"><h2 id="login-title">账号登录</h2><p>登录后进入实验室台账管理平台。</p></header>
+          <form id="login-form" novalidate>
+            <div class="login-field">
+              <label for="account">账号</label>
+              <input id="account" name="account" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-required="true" maxlength="80" placeholder="请输入账号" aria-describedby="account-error" />
+              <span class="field-message" id="account-error" aria-live="polite"></span>
+            </div>
+            <div class="login-field">
+              <label for="password">密码</label>
+              <div class="password-field">
+                <input id="password" name="password" type="password" autocomplete="current-password" required aria-required="true" maxlength="128" placeholder="请输入密码" aria-describedby="password-error" />
+                <button id="toggle-password" class="password-toggle" type="button" aria-label="显示密码" aria-pressed="false" aria-controls="password">显示</button>
+              </div>
+              <span class="field-message" id="password-error" aria-live="polite"></span>
+            </div>
+            <p class="login-message" id="login-message" role="status" aria-live="polite"></p>
+            <button class="login-button" id="login-button" type="submit" data-state="default"><span class="button-spinner" aria-hidden="true"></span><span id="login-button-label">登录</span></button>
+          </form>
+          <p class="auth-switch" id="login-switch">还没有账号？<button type="button" id="show-register" aria-controls="register-form">注册账号</button></p>
+          <form id="register-form" novalidate hidden>
+            <div class="login-field">
+              <label for="register-name">姓名</label>
+              <input id="register-name" name="display_name" type="text" autocomplete="name" required maxlength="40" placeholder="请输入姓名" aria-describedby="register-name-error" />
+              <span class="field-message" id="register-name-error" aria-live="polite"></span>
+            </div>
+            <div class="login-field">
+              <label for="register-account">账号</label>
+              <input id="register-account" name="account" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required minlength="3" maxlength="80" placeholder="3–80 位字母、数字或 _ . @ -" aria-describedby="register-account-error" />
+              <span class="field-message" id="register-account-error" aria-live="polite"></span>
+            </div>
+            <div class="login-field">
+              <label for="register-password">密码</label>
+              <div class="password-field">
+                <input id="register-password" name="password" type="password" autocomplete="new-password" required minlength="9" maxlength="128" placeholder="请输入 9–128 位密码" aria-describedby="register-password-error" />
+                <button class="password-toggle" id="toggle-register-password" type="button" aria-label="显示注册密码" aria-pressed="false" aria-controls="register-password">显示</button>
+              </div>
+              <span class="field-message" id="register-password-error" aria-live="polite"></span>
+            </div>
+            <div class="login-field">
+              <label for="register-confirm">确认密码</label>
+              <input id="register-confirm" name="confirm_password" type="password" autocomplete="new-password" required minlength="9" maxlength="128" placeholder="请再次输入密码" aria-describedby="register-confirm-error" />
+              <span class="field-message" id="register-confirm-error" aria-live="polite"></span>
+            </div>
+            <p class="login-message" id="register-message" role="status" aria-live="polite"></p>
+            <button class="login-button" id="register-button" type="submit" data-state="default"><span class="button-spinner" aria-hidden="true"></span><span id="register-button-label">注册账号</span></button>
+          </form>
+          <p class="auth-switch" id="register-switch" hidden>已有账号？<button type="button" id="show-login" aria-controls="login-form">返回登录</button></p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

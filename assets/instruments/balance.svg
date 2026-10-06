@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 230" role="img" aria-labelledby="title desc">
+  <title id="title">分析天平</title>
+  <desc id="desc">带玻璃防风罩和数字显示屏的实验室分析天平。</desc>
+  <rect width="360" height="230" rx="24" fill="#f2f3f2"/>
+  <ellipse cx="180" cy="202" rx="118" ry="10" fill="#cbd0cf" opacity=".6"/>
+  <rect x="82" y="34" width="196" height="132" rx="11" fill="#dce5e5" stroke="#718084" stroke-width="3"/>
+  <path d="M143 35v130M217 35v130" stroke="#8c9b9e" stroke-width="2"/>
+  <rect x="95" y="48" width="170" height="104" rx="5" fill="#d8eef1" opacity=".48"/>
+  <path d="M101 48h37v99" stroke="#fff" stroke-width="7" opacity=".56"/>
+  <ellipse cx="180" cy="139" rx="42" ry="12" fill="#9fa9aa"/>
+  <rect x="71" y="157" width="218" height="48" rx="10" fill="#e3e5e4" stroke="#747f81" stroke-width="3"/>
+  <rect x="132" y="169" width="96" height="25" rx="4" fill="#263e3a"/>
+  <text x="180" y="186" text-anchor="middle" fill="#bcead7" font-family="monospace" font-size="13">0.0000 g</text>
+  <circle cx="245" cy="181" r="7" fill="#7a0019"/>
+  <circle cx="267" cy="181" r="7" fill="#b9bfbe"/>
+  <rect x="83" y="203" width="16" height="6" rx="3" fill="#525b5c"/>
+  <rect x="261" y="203" width="16" height="6" rx="3" fill="#525b5c"/>
+</svg>

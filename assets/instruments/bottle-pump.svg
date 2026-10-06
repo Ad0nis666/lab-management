@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 230" role="img" aria-labelledby="title desc">
+<title id="title">药瓶泵</title><desc id="desc">带试剂瓶、输液管和控制面板的实验室药瓶泵卡通示意图。</desc>
+<rect width="360" height="230" rx="24" fill="#f2f3f2"/><ellipse cx="180" cy="204" rx="118" ry="10" fill="#cbd0cf" opacity=".6"/>
+<rect x="169" y="74" width="115" height="124" rx="12" fill="#e3e5e4" stroke="#747f81" stroke-width="3"/>
+<rect x="185" y="89" width="82" height="29" rx="5" fill="#263e3a"/><text x="226" y="108" text-anchor="middle" fill="#bcead7" font-family="monospace" font-size="12">mL / min</text>
+<circle cx="226" cy="150" r="23" fill="#dce5e5" stroke="#718084" stroke-width="3"/><circle cx="226" cy="150" r="9" fill="#b9bfbe"/>
+<circle cx="194" cy="185" r="6" fill="#7a0019"/><circle cx="213" cy="185" r="6" fill="#b9bfbe"/>
+<path d="M102 71V43h105v86m38 0h45v55" fill="none" stroke="#8c9b9e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M90 75v18l-21 17v79q0 9 9 9h52q9 0 9-9v-79l-21-17V75" fill="#d8eef1" stroke="#718084" stroke-width="3"/>
+<path d="M74 141h60v48q0 5-5 5H79q-5 0-5-5Z" fill="#a8cbc8"/><rect x="86" y="68" width="37" height="17" rx="4" fill="#7a0019"/>
+<rect x="83" y="118" width="42" height="35" rx="4" fill="#f2f3f2"/><path d="M91 129h25m-25 11h18" stroke="#8c9b9e" stroke-width="3"/>
+</svg>

@@ -1,0 +1,24 @@
+[
+  {
+    "date": "2026-10-05",
+    "macrostructure": "Split Studio",
+    "theme": "existing university brand",
+    "genre": "editorial",
+    "nav": "N9",
+    "footer": "Ft1",
+    "enrichment": "existing university print",
+    "brief": "普通账号登录，左右分栏与校徽印花背景",
+    "viewport_scope": "desktop only, per user brief"
+  },
+  {
+    "date": "2026-10-05",
+    "macrostructure": "Catalogue",
+    "theme": "Newsprint (existing university brand)",
+    "genre": "editorial",
+    "nav": "N6 institutional masthead",
+    "footer": "Ft2",
+    "enrichment": "none",
+    "brief": "校园实验室台账与试剂使用登记",
+    "viewport_scope": "desktop only, per AGENTS.md"
+  }
+]

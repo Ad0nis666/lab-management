@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-05",
+  "framework": "vanilla HTML/CSS/JS",
+  "font_stack": "Chinese system sans + Songti SC display",
+  "palette": "existing PKU red",
+  "motion": "native scroll reveal, removed for institutional use",
+  "spacing": "4px scale introduced",
+  "sources": [
+    "index.html",
+    "styles.css",
+    "app.js"
+  ]
+}
