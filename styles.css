@@ -410,7 +410,6 @@ input::placeholder { color: var(--color-muted); }
 .institutional-title { display: grid; gap: var(--space-2xs); padding-left: var(--space-xl); border-left: 1px solid var(--color-rule); }
 .institutional-title strong { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; letter-spacing: .06em; }
 .institutional-title span { color: var(--color-muted); font-size: var(--text-xs); }
-.demo-label { margin-left: auto; padding: var(--space-2xs) var(--space-sm); border: 1px solid var(--color-rule); color: var(--color-muted); font-size: var(--text-xs); white-space: nowrap; }
 .sidebar { top: var(--header-height); padding: var(--space-lg) var(--space-md); background: var(--color-surface); }
 .sidebar-heading { display: flex; justify-content: space-between; align-items: center; color: var(--color-muted); font-size: var(--text-xs); padding-inline: var(--space-sm); }
 .nav-list { margin-top: var(--space-md); gap: var(--space-xs); }
@@ -545,7 +544,6 @@ h1 { font-size: 22px; }
   .institutional-header { gap: var(--space-lg); padding-inline: var(--space-lg); }
   .institutional-title { padding-left: var(--space-lg); }
   .institutional-title strong { font-size: 20px; }
-  .demo-label { display: none; }
   .sidebar { top: 0; width: min(280px, calc(100% - 40px)); }
   .sidebar-heading { min-height: 44px; }
   .main-content { margin-left: 0; }

@@ -21,6 +21,17 @@ const { server } = fixture;
     assert.deepEqual(await page.locator('.app-footer > span').allTextContents(), ['北京大学 · 深圳研究生院', '试剂、仪器、样本及使用记录保存在数据库中']);
     for (const width of [1280, 1440, 1920]) {
       await page.setViewportSize({ width, height: 1000 });
+      const masthead = page.locator('.institutional-header');
+      assert.equal(await masthead.locator('.demo-label').count(), 0, 'Masthead must omit the former demo badge');
+      assert.doesNotMatch(await masthead.innerText(), /演示环境/);
+      const headerLayout = await masthead.evaluate(header => {
+        const bounds = header.getBoundingClientRect();
+        return [...header.children].every(child => {
+          const box = child.getBoundingClientRect();
+          return box.left >= bounds.left && box.right <= bounds.right && box.top >= bounds.top && box.bottom <= bounds.bottom;
+        });
+      });
+      assert.ok(headerLayout, 'Brand and platform title must remain inside the desktop masthead');
       const footer = await page.locator('.app-footer').evaluate(element => ({ edge: element.getBoundingClientRect().right, copy: element.lastElementChild.getBoundingClientRect().right, alignment: getComputedStyle(element.lastElementChild).textAlign }));
       assert.equal(footer.alignment, 'right');
       assert.ok(Math.abs(footer.edge - footer.copy) <= 1, 'Database note must align to the right content edge');
